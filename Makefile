@@ -1,45 +1,39 @@
+INCD = inc
+OBJD = obj
+SRCD = src
+LIBD = libmx
+LIB = $(LIBD)/libmx.a
+EXE = uls
+SRCS := $(wildcard $(SRCD)/*.c)
+OBJS := $(patsubst $(SRCD)/%.c, $(OBJD)/%.o, $(SRCS))
 CC = clang
 CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic
-LDFLAGS = $(LIB_DIR)/$(LIB)
-INCLUDES = -I$(INC_DIR) -I$(LIB_DIR)/$(INC_DIR)
 
-SRC_DIR = src
-OBJ_DIR = obj
-INC_DIR = inc
+.PHONY: all install clean uninstall reinstall
 
-SRC = $(wildcard $(SRC_DIR)/*.c)
-OBJ = $(patsubst $(SRC_DIR)/%, $(OBJ_DIR)/%, $(SRC:%.c=%.o))
+all: install
 
-LIB_DIR = libmx
-LIB = libmx.a
-
-TARGET = pathfinder
-
-.PHONY: all clean uninstall reinstall
-
-all: $(LIB) $(TARGET)
+install: $(LIB) $(EXE)
 
 $(LIB):
-	make -C $(LIB_DIR)
+	make -C $(LIBD)
 
-$(TARGET): $(OBJ)
-	$(CC) $(CFLAGS) $(INCLUDES) $^ $(LDFLAGS) -o $@
+$(EXE): $(OBJS)
+	$(CC) $(CFLAGS) -I$(INCD) $^ $(LIB) -o $@
 
-$(OBJ): $(SRC)
-	mkdir $(OBJ_DIR)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $^
-	mv *.o $(OBJ_DIR)
+$(OBJS): $(OBJD)/%.o: $(SRCD)/%.c | $(OBJD)
+	$(CC) $(CFLAGS) -I$(INCD) -I$(LIBD)/$(INCD) -c $< -o $@
+
+$(OBJD):
+	mkdir -p $(OBJD)
+
+uninstall: clean
+	rm -f $(EXE)
+	make -C $(LIBD) uninstall
 
 clean:
-	rm -rf $(OBJ_DIR)
-	make -C $(LIB_DIR) clean
+	rm -rf $(OBJD)
+	make -C $(LIBD) clean
 
-uninstall:
-	rm -f $(TARGET)
-	make -C $(LIB_DIR) uninstall
+reinstall: uninstall all
 
-reinstall:
-	make -C $(LIB_DIR) reinstall
-	make clean
-	make uninstall
-	make all
