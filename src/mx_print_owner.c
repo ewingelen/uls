@@ -5,4 +5,6 @@ void mx_print_owner(struct stat *stat) {
 
     if (pw != 0)
         mx_printstr(pw->pw_name);
+    else
+        mx_printlonglong(stat->st_uid);
 }

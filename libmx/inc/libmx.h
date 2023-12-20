@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <fcntl.h>
+#include <limits.h>
 #include <stdbool.h>
 
 #ifdef __MACH__
@@ -119,6 +120,8 @@ void mx_print_unicode(wchar_t c);
 void mx_printchar(char c);
 
 void mx_printint(int n);
+
+void mx_printlonglong(long long n);
 
 void mx_printstr(const char *s);
 

@@ -5,4 +5,6 @@ void mx_print_group_owner(struct stat *stat) {
 
     if (gr != 0)
         mx_printstr(gr->gr_name);
+    else
+        mx_printlonglong(stat->st_gid);
 }

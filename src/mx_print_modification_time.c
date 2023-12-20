@@ -1,22 +1,36 @@
 #include "uls.h"
 
-//TODO: implement
 void mx_print_modification_time(struct stat *stat) {
-    struct stat *stat_copy = stat;
-    mx_printint(stat_copy->st_size);
-//    if (lstat(path, stat_copy) == 0)
-//        mx_printstr(stat->st_mtimespec);
+    char *full_time_str = ctime(&stat->st_mtime);
+    char **full_time_arr = mx_strsplit(full_time_str, ' ');
+    char *month = full_time_arr[1];
+    char *day = full_time_arr[2];
+    time_t current_time = time(NULL);
+    time_t half_year_in_seconds = (365 / 2) * 24 * 60 * 60;
 
-//    struct timespec mx_take_time_info(struct stat *stat, t_time time_type) {
-//        if (time_type == MOD) {
-//            return stat->st_mtimespec;
-//        } else if (time_type == STAT) {
-//            return stat->st_ctimespec;
-//        } else if (time_type == ACC) {
-//            return stat->st_atimespec;
-//        } else if (time_type == CREATE) {
-//            return stat->st_birthtimespec;
-//        }
-//        return stat->st_mtimespec;
-//    }
+    mx_printstr(month);
+    mx_printchar(' ');
+    mx_printstr(day);
+    mx_printchar(' ');
+
+    if (stat->st_mtime + half_year_in_seconds <= current_time
+        || stat->st_mtime >= current_time + half_year_in_seconds) {
+        char *year = full_time_arr[4];
+        int new_line_index = mx_get_char_index(year, '\n');
+        year[new_line_index] = '\0';
+        mx_printstr(year);
+    }
+    else {
+        char *time_str = full_time_arr[3];
+        char **time_arr = mx_strsplit(time_str, ':');
+        char *hour = time_arr[0];
+        char *minute = time_arr[1];
+
+        mx_printstr(hour);
+        mx_printchar(':');
+        mx_printstr(minute);
+        mx_del_strarr(&time_arr);
+    }
+
+    mx_del_strarr(&full_time_arr);
 }
