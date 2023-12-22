@@ -36,4 +36,3 @@ clean:
 	make -C $(LIBD) clean
 
 reinstall: uninstall all
-

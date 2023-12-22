@@ -1,4 +1,4 @@
-#include "uls.h"
+#include "../inc/uls.h"
 
 char **mx_get_d_names_alphabetically(char *path, int *dirent_count) {
     char **names = NULL;

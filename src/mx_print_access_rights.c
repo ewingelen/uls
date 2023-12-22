@@ -1,4 +1,4 @@
-#include "uls.h"
+#include "../inc/uls.h"
 
 void mx_print_access_rights(struct stat *stat) {
     char *read_right = "r";

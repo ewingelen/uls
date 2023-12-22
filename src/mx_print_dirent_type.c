@@ -1,4 +1,4 @@
-#include "uls.h"
+#include "../inc/uls.h"
 
 void mx_print_dirent_type(mode_t mode) {
     switch (mode & S_IFMT) {

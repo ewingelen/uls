@@ -1,4 +1,4 @@
-#include "libmx.h"
+#include "../inc/libmx.h"
 
 void mx_printlonglong(long long n) {
     if (n == LLONG_MIN) {

@@ -1,10 +1,7 @@
-#include "uls.h"
+#include "../inc/uls.h"
 
 void mx_print_total_block_count_if_directory(char *path) {
     char *dir_path_with_slash = mx_strcat(path, "/");
-
-    if (!mx_check_is_directory(dir_path_with_slash))
-        return;
 
     blkcnt_t total_blocks = 0;
     struct stat file_stat;

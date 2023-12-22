@@ -1,4 +1,4 @@
-#include "uls.h"
+#include "../inc/uls.h"
 
 void mx_print_xattr_or_acl(char *path) {
     ssize_t xattr = listxattr(path, NULL, 0, XATTR_NOFOLLOW);

@@ -1,4 +1,4 @@
-#include "uls.h"
+#include "../inc/uls.h"
 
 void mx_print_modification_time(struct stat *stat) {
     char *full_time_str = ctime(&stat->st_mtime);
@@ -10,6 +10,8 @@ void mx_print_modification_time(struct stat *stat) {
 
     mx_printstr(month);
     mx_printchar(' ');
+    if (mx_strlen(day) == 1)
+	mx_printchar(' ');
     mx_printstr(day);
     mx_printchar(' ');
 
@@ -18,6 +20,7 @@ void mx_print_modification_time(struct stat *stat) {
         char *year = full_time_arr[4];
         int new_line_index = mx_get_char_index(year, '\n');
         year[new_line_index] = '\0';
+        mx_printchar(' ');
         mx_printstr(year);
     }
     else {
